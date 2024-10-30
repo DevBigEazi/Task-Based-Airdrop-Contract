@@ -6,7 +6,7 @@ describe("Token Test", function () {
   async function deployTokenFixture() {
     const [owner, otherAccount] = await hre.ethers.getSigners();
 
-    const Token = await hre.ethers.getContractFactory("MyTokenTask");
+    const Token = await hre.ethers.getContractFactory("Roqisiq");
     const token = await Token.deploy(owner.address);
     await token.waitForDeployment();
 
@@ -17,8 +17,8 @@ describe("Token Test", function () {
     it("Should deploy with the correct token name and symbol", async function () {
       const { token } = await loadFixture(deployTokenFixture);
 
-      expect(await token.name()).to.equal("MyTask");
-      expect(await token.symbol()).to.equal("MTK");
+      expect(await token.name()).to.equal("Roqisiq");
+      expect(await token.symbol()).to.equal("RQ");
     });
 
     it("Should set the right owner", async function () {
