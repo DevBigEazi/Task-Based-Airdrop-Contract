@@ -13,14 +13,13 @@ contract TaskBasedAirdrop {
     struct User {
         uint256 accumulatedPoints;
         uint16 numberOfTaskCompleted;
-        uint256 tokenBalnce;
+        uint256 tokenBalance;
     }
 
     struct Task {
         string description;
         uint256 points;
-        uint256 expiredIn;
-        bool isActive;
+        uint256 expiredAt;
     }
 
     Task[] public tasks;
@@ -55,12 +54,12 @@ contract TaskBasedAirdrop {
         uint256 _expiringAt
     ) external OnlyAdmin {
         require(msg.sender != address(0), "Zero address is not allowed");
+        require(_expiringAt > 0, "Duration is too short");
 
         Task memory newTask;
         newTask.description = _description;
         newTask.points = _points;
-        newTask.isActive = true;
-        newTask.expiredIn = block.timestamp + _expiringAt;
+        newTask.expiredAt = block.timestamp + _expiringAt;
 
         tasks.push(newTask);
 
@@ -81,7 +80,7 @@ contract TaskBasedAirdrop {
 
         Task storage currentTask = tasks[_index];
 
-        require(currentTask.isActive == true, "Inactive task");
+        require(block.timestamp < currentTask.expiredAt, "Inactive task");
 
         hasCompleted[msg.sender][_index] = true;
 
@@ -96,6 +95,16 @@ contract TaskBasedAirdrop {
         return true;
     }
 
+    function getTask(uint256 _index) external view returns (Task memory) {
+        require(msg.sender != address(0), "Zero address not allowed!");
+
+        require(_index < tasks.length, "Out of bound!");
+
+        Task memory task = tasks[_index];
+
+        return task;
+    }
+
     function getAllTasks() external view returns (Task[] memory) {
         return tasks;
     }
@@ -106,14 +115,14 @@ contract TaskBasedAirdrop {
         returns (
             uint256 accumulatedPoints_,
             uint16 numberOfTaskCompleted_,
-            uint256 tokenBalnce_
+            uint256 tokenBalance_
         )
     {
         require(msg.sender != address(0), "Zero address not allowed");
 
         accumulatedPoints_ = users[msg.sender].accumulatedPoints;
         numberOfTaskCompleted_ = users[msg.sender].numberOfTaskCompleted;
-        tokenBalnce_ = users[msg.sender].tokenBalnce;
+        tokenBalance_ = users[msg.sender].tokenBalance;
     }
 
     function redeemPointToClaimReward() external returns (bool) {
@@ -128,10 +137,14 @@ contract TaskBasedAirdrop {
 
         RQContract.transfer(msg.sender, claimableReward);
 
-        users[msg.sender].tokenBalnce += claimableReward;
+        users[msg.sender].tokenBalance += claimableReward;
 
         emit PointsRedeemed(msg.sender, claimableReward);
 
         return true;
+    }
+
+    function getContractRQTokenBalance() external view returns (uint256) {
+        return RQContract.balanceOf(address(this));
     }
 }
