@@ -4,13 +4,12 @@ This Project demonstrates a task based platform where users can connect wallet, 
 
 This project has two contract;
 
-# Token contract
+Token contract
 
 ```
 0x7E4Ed970F2b07d725496b4d32be28666C6fb0c2f
 ```
-
-# Main Contract (TaskBasedAirdrop)
+Main Contract (TaskBasedAirdrop)
 
 ```
 0x5Ca031e31AeBc80D72eC9D34FA400f267255a888
