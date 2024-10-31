@@ -1,13 +1,29 @@
 # Sample Hardhat Project
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+This Project demonstrates a task based platform where users can connect wallet, perform series of active tasks and accumulate points for each task they performed. Users can redeem their points at maximum of 50 to get 20 thousand RQ token.
+
+This project use two contract;
+
+# Token contract
+
+```
+0x7E4Ed970F2b07d725496b4d32be28666C6fb0c2f
+```
+
+# Main Contract (TaskBasedAirdrop)
+
+```
+0x5Ca031e31AeBc80D72eC9D34FA400f267255a888
+```
 
 Try running some of the following tasks:
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.ts
+# You can interact with the contracts below;
+
+```
+https://sepolia.basescan.org/address/0x5Ca031e31AeBc80D72eC9D34FA400f267255a888
+```
+
+```
+https://sepolia.basescan.org/address/0x7E4Ed970F2b07d725496b4d32be28666C6fb0c2f
 ```
